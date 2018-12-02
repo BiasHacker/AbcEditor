@@ -1,3 +1,6 @@
 [submodule "SwfDec"]
 	path = SwfDec
 	url = https://github.com/BiasHacker/SwfDec.git
+[submodule "ByteArray"]
+	path = ByteArray
+	url = https://github.com/BiasHacker/ByteArray.git

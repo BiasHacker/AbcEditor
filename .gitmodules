@@ -1,0 +1,3 @@
+[submodule "SwfDec"]
+	path = SwfDec
+	url = https://github.com/BiasHacker/SwfDec.git

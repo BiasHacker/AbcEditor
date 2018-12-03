@@ -12,6 +12,17 @@ namespace AbcEditor
     {
         public ChromiumWebBrowser CEFEngine { get; private set; }
 
+        private BrowserSettings BrowserSettings => new BrowserSettings
+        {
+            DefaultEncoding = "UTF-8",
+            JavascriptAccessClipboard = CefState.Enabled,
+            JavascriptOpenWindows = CefState.Disabled,
+            JavascriptCloseWindows = CefState.Disabled,
+            JavascriptDomPaste = CefState.Disabled,
+            OffScreenTransparentBackground = true,
+            SansSerifFontFamily = "Meiryo"
+        };
+
         public MainForm()
         {
             InitializeComponent();
@@ -27,10 +38,12 @@ namespace AbcEditor
                 settings.CefCommandLineArgs.Add("ppapi-flash-path", flash);
             settings.CachePath = $@"{current}data";
             Cef.Initialize(settings);
-            CEFEngine = new ChromiumWebBrowser("http://google.com/");
+            CEFEngine = new ChromiumWebBrowser("http://www.nyafuri.com/TypeShoot/jp.html");
             var lifeSpanHandler = new LifeSpanHandler();
             lifeSpanHandler.PopupRequest += x => Process.Start(x);
             CEFEngine.LifeSpanHandler = lifeSpanHandler;
+            CEFEngine.ResourceHandlerFactory = new HttpResourceHandlerFactory();
+            CEFEngine.BrowserSettings = BrowserSettings;
             CEFEngine.Dock = DockStyle.Fill;
             CefSharpPanel.Controls.Add(CEFEngine);
         }

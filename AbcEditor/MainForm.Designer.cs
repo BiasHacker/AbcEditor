@@ -47,7 +47,7 @@
             this.ClientSize = new System.Drawing.Size(1147, 728);
             this.Controls.Add(this.CefSharpPanel);
             this.Name = "MainForm";
-            this.Text = "Form1";
+            this.Text = "TypeShoot";
             this.ResumeLayout(false);
 
         }

@@ -1,9 +1,11 @@
-﻿using CefSharp;
+﻿using AbcEditor.TypeShoot;
+using CefSharp;
 using SwfDec;
 using SwfDec.AVM2.ByteCode;
 using SwfDec.AVM2.ByteCode.Instructions.Push;
 using SwfDec.AVM2.Types;
 using SwfDec.AVM2.Types.Traits;
+using System.IO;
 
 namespace AbcEditor.CEFHandler
 {
@@ -44,25 +46,19 @@ namespace AbcEditor.CEFHandler
                                     var bin = initializer.MethodBody.Code;
                                     var byteCode = new ByteCode(bin, abc);
                                     var instructions = byteCode.Instructions;
-
-                                    var stringArray = constantPool.StringArrayLength;
-                                    var stringInfo = new StringInfo(
-                                        stringArray, "github.com/BiasHacker");
-                                    constantPool.SetStringAt(stringInfo, stringArray);
-
-                                    for (var count = 0; count < instructions.Count; count++)
-                                    {
-                                        if (instructions[count] is As3PushString str)
-                                            instructions[count] = new As3PushString(stringInfo);
-                                    }
-
+                                    var words = new Words(constantPool);
+                                    words.Constructor(instructions);
                                     initializer.MethodBody.Code = byteCode.GetBytes();
                                 }
                             }
                         }
                     }
 
-                    return swf.Compile();
+                    var compileSwf = swf.Compile();
+
+                    // File.WriteAllBytes("-TypeShoot.swf", compileSwf);
+
+                    return compileSwf;
                 });
             }
             return null;
